@@ -1,0 +1,9 @@
+<h1>Dashboard</h1>
+<input type=text [(ngModel)]="request.text" (keypress)="onKeyPressed($event)" placeholder="Search..." />
+<button (click)="startSearch()">Search</button>
+<div *ngIf="searchResponse">
+  <label>{{searchResponse.totalElements}} results:</label>
+  <div *ngFor="#entry of searchResponse.entries">
+      <div>{{entry.title}}</div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+*/build
+*/node_modules
+*.classpath
+*.eclipse
+*.project
+*/.gradle
+*/bin
+*.settings
+*/typings

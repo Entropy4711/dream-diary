@@ -1,0 +1,9 @@
+<h1>Add entry</h1>
+<div class="editorMain">
+  <input [(ngModel)]="entry.title" placeholder="Title" />
+  <br/>
+  <textarea [(ngModel)]="entry.content" placeholder="Content" ></textarea>
+  <br/>
+
+  <button (click)="saveEntry()">Save</button>
+</div>
