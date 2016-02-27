@@ -1,7 +1,9 @@
 
 export class DiaryEntrySearchRequest {
 
-  text : string;
+  term : string;
   page: number;
   pageSize: number;
+  sortField: string;
+  sortAscending: boolean;
 }

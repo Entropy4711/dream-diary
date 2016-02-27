@@ -1,7 +1,9 @@
 export class Entry {
 
-  id;
+  id: string;
+  createdDate: string;
   title: string;
   content: string;
   tags: string[];
+  images: string[];
 }

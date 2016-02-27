@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../model/diary-entry-search-request', '../service/rest.service'], function(exports_1, context_1) {
+System.register(['angular2/core', '../model/diary-entry-search-request', '../service/rest.service', 'angular2/router'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', '../model/diary-entry-search-request', '../ser
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, diary_entry_search_request_1, rest_service_1;
+    var core_1, diary_entry_search_request_1, rest_service_1, router_1;
     var DashboardComponent;
     return {
         setters:[
@@ -22,13 +22,17 @@ System.register(['angular2/core', '../model/diary-entry-search-request', '../ser
             },
             function (rest_service_1_1) {
                 rest_service_1 = rest_service_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             }],
         execute: function() {
             DashboardComponent = (function () {
-                function DashboardComponent(restService) {
+                function DashboardComponent(restService, _router) {
                     this.restService = restService;
+                    this._router = _router;
                     this.request = new diary_entry_search_request_1.DiaryEntrySearchRequest();
-                    this.request.text = "";
+                    this.request.term = '';
                     this.request.page = 0;
                     this.request.pageSize = 25;
                 }
@@ -41,12 +45,15 @@ System.register(['angular2/core', '../model/diary-entry-search-request', '../ser
                     var _this = this;
                     this.restService.search(this.request).subscribe(function (resp) { return _this.searchResponse = resp; });
                 };
+                DashboardComponent.prototype.openEntry = function (id) {
+                    this._router.navigate(['Editor', { id: id }]);
+                };
                 DashboardComponent = __decorate([
                     core_1.Component({
                         selector: 'dashboard',
                         templateUrl: 'app/dashboard/dashboard.component.html'
                     }), 
-                    __metadata('design:paramtypes', [rest_service_1.RestService])
+                    __metadata('design:paramtypes', [rest_service_1.RestService, router_1.Router])
                 ], DashboardComponent);
                 return DashboardComponent;
             }());

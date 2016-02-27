@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../model/entry', '../service/rest.service'], function(exports_1, context_1) {
+System.register(['angular2/core', '../model/entry', '../service/rest.service', 'angular2/router'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', '../model/entry', '../service/rest.service'], 
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, entry_1, rest_service_1;
+    var core_1, entry_1, rest_service_1, router_1;
     var EditorComponent;
     return {
         setters:[
@@ -22,13 +22,28 @@ System.register(['angular2/core', '../model/entry', '../service/rest.service'], 
             },
             function (rest_service_1_1) {
                 rest_service_1 = rest_service_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             }],
         execute: function() {
             EditorComponent = (function () {
-                function EditorComponent(restService) {
+                function EditorComponent(restService, _routeParams) {
                     this.restService = restService;
+                    this._routeParams = _routeParams;
                     this.entry = new entry_1.Entry();
                 }
+                EditorComponent.prototype.ngOnInit = function () {
+                    var _this = this;
+                    var id = this._routeParams.get('id');
+                    if (id) {
+                        this.caption = "Edit entry";
+                        this.restService.get(id).subscribe(function (e) { return _this.entry = e; });
+                    }
+                    else {
+                        this.caption = "Add entry";
+                    }
+                };
                 EditorComponent.prototype.saveEntry = function () {
                     var _this = this;
                     this.restService.save(this.entry).subscribe(function (e) { return _this.entry = e; });
@@ -39,7 +54,7 @@ System.register(['angular2/core', '../model/entry', '../service/rest.service'], 
                         templateUrl: 'app/editor/editor.component.html',
                         styleUrls: ['app/editor/editor.component.css']
                     }), 
-                    __metadata('design:paramtypes', [rest_service_1.RestService])
+                    __metadata('design:paramtypes', [rest_service_1.RestService, router_1.RouteParams])
                 ], EditorComponent);
                 return EditorComponent;
             }());

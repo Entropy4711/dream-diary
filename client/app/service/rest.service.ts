@@ -5,33 +5,48 @@ import 'rxjs/Rx';
 import {Observable} from 'rxjs/Observable';
 import {DiaryEntrySearchRequest} from '../model/diary-entry-search-request';
 import {DiaryEntrySearchResponse} from '../model/diary-entry-search-response';
+import {URLSearchParams} from 'angular2/http';
 
 @Injectable()
 export class RestService {
 
-  private saveEntryUrl = 'http://localhost:8080/entry';
   private searchEntriesUrl = 'http://localhost:8080/entries';
 
   constructor(private http: Http) {}
 
   save(entry: Entry) : Observable<Entry> {
-    console.info(entry);
     let body = JSON.stringify(entry);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.saveEntryUrl, body, options)
+    return this.http.post(this.searchEntriesUrl, body, options)
+                    .map(res =>  <Entry> res.json())
+                    .catch(this.handleError);
+  }
+
+  get(id : string) : Observable<Entry> {
+    var url = this.searchEntriesUrl + '/' + id;
+    return this.http.get(url)
                     .map(res =>  <Entry> res.json())
                     .catch(this.handleError);
   }
 
   search(request: DiaryEntrySearchRequest) : Observable<DiaryEntrySearchResponse> {
     console.info(request);
-    let body = JSON.stringify(request);
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-    let options = new RequestOptions({ headers: headers });
+    var params = new URLSearchParams();
+    params.set('term', request.term);
+    params.set('page', request.page + '');
+    params.set('pageSize', request.pageSize + '');
 
-    return this.http.post(this.searchEntriesUrl, body, options)
+    if(request.sortField) {
+      params.set('sortField', request.sortField);
+    }
+
+    if(request.sortAscending) {
+      params.set('sortAscending', request.sortAscending + '');
+    }
+
+    return this.http.get(this.searchEntriesUrl, { search: params })
                     .map(res =>  <DiaryEntrySearchResponse> res.json())
                     .catch(this.handleError);
   }

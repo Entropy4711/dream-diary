@@ -6,16 +6,18 @@ public class DiaryEntrySearchRequest implements Serializable {
 	
 	private static final long serialVersionUID = -473430984534854544L;
 	
-	private String text;
+	private String term;
 	private int page;
 	private int pageSize;
+	private String sortField;
+	private boolean sortAscending;
 	
-	public String getText() {
-		return text;
+	public String getTerm() {
+		return term;
 	}
 	
-	public void setText(String text) {
-		this.text = text;
+	public void setTerm(String term) {
+		this.term = term;
 	}
 	
 	public int getPage() {
@@ -32,5 +34,21 @@ public class DiaryEntrySearchRequest implements Serializable {
 	
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+	}
+	
+	public String getSortField() {
+		return sortField;
+	}
+	
+	public void setSortField(String sortField) {
+		this.sortField = sortField;
+	}
+	
+	public boolean isSortAscending() {
+		return sortAscending;
+	}
+	
+	public void setSortAscending(boolean sortAscending) {
+		this.sortAscending = sortAscending;
 	}
 }

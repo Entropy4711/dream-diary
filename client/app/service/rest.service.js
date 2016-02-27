@@ -10,7 +10,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'rxjs/Observable']
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, http_1, Observable_1;
+    var core_1, http_1, Observable_1, http_2;
     var RestService;
     return {
         setters:[
@@ -19,6 +19,7 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'rxjs/Observable']
             },
             function (http_1_1) {
                 http_1 = http_1_1;
+                http_2 = http_1_1;
             },
             function (_1) {},
             function (Observable_1_1) {
@@ -28,24 +29,35 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'rxjs/Observable']
             RestService = (function () {
                 function RestService(http) {
                     this.http = http;
-                    this.saveEntryUrl = 'http://localhost:8080/entry';
                     this.searchEntriesUrl = 'http://localhost:8080/entries';
                 }
                 RestService.prototype.save = function (entry) {
-                    console.info(entry);
                     var body = JSON.stringify(entry);
                     var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
                     var options = new http_1.RequestOptions({ headers: headers });
-                    return this.http.post(this.saveEntryUrl, body, options)
+                    return this.http.post(this.searchEntriesUrl, body, options)
+                        .map(function (res) { return res.json(); })
+                        .catch(this.handleError);
+                };
+                RestService.prototype.get = function (id) {
+                    var url = this.searchEntriesUrl + '/' + id;
+                    return this.http.get(url)
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
                 RestService.prototype.search = function (request) {
                     console.info(request);
-                    var body = JSON.stringify(request);
-                    var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
-                    var options = new http_1.RequestOptions({ headers: headers });
-                    return this.http.post(this.searchEntriesUrl, body, options)
+                    var params = new http_2.URLSearchParams();
+                    params.set('term', request.term);
+                    params.set('page', request.page + '');
+                    params.set('pageSize', request.pageSize + '');
+                    if (request.sortField) {
+                        params.set('sortField', request.sortField);
+                    }
+                    if (request.sortAscending) {
+                        params.set('sortAscending', request.sortAscending + '');
+                    }
+                    return this.http.get(this.searchEntriesUrl, { search: params })
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
