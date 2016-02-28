@@ -1,0 +1,47 @@
+#searchBar {
+  overflow: hidden;
+}
+
+#totalElements{
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+#searchResultWrapper {
+  margin: 5px;
+}
+
+.deleteButton {
+  background: transparent;
+  border: none;
+  color: #1c66ab;
+  font-weight: bolder;
+}
+
+#header {
+  background: #1c66ab;
+  color: white;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: white;
+}
+
+tr:nth-child(odd) {
+    background-color: lightgrey;
+}
+
+tr:nth-child(even):hover {
+    background-color: grey;
+    color: white;
+}
+
+tr:nth-child(odd):hover {
+    background-color: grey;
+    color: white;
+}
+
+td {
+  padding: 4px;
+}

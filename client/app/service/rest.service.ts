@@ -1,5 +1,5 @@
 import {Injectable} from 'angular2/core';
-import {Entry} from '../model/entry';
+import {DiaryEntry} from '../model/diary-entry';
 import {Http, Response, Headers, RequestOptions} from 'angular2/http';
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Observable';
@@ -14,21 +14,26 @@ export class RestService {
 
   constructor(private http: Http) {}
 
-  save(entry: Entry) : Observable<Entry> {
+  save(entry: DiaryEntry) : Observable<DiaryEntry> {
     let body = JSON.stringify(entry);
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.searchEntriesUrl, body, options)
-                    .map(res =>  <Entry> res.json())
+                    .map(res =>  <DiaryEntry> res.json())
                     .catch(this.handleError);
   }
 
-  get(id : string) : Observable<Entry> {
+  get(id : string) : Observable<DiaryEntry> {
     var url = this.searchEntriesUrl + '/' + id;
     return this.http.get(url)
-                    .map(res =>  <Entry> res.json())
+                    .map(res =>  <DiaryEntry> res.json())
                     .catch(this.handleError);
+  }
+
+  delete(id : string) : Observable<Response> {
+    var url = this.searchEntriesUrl + '/' + id;
+    return this.http.delete(url);
   }
 
   search(request: DiaryEntrySearchRequest) : Observable<DiaryEntrySearchResponse> {

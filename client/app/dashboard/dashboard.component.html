@@ -1,23 +1,34 @@
-<h1>Dashboard</h1>
-<input type=text [(ngModel)]="request.term" (keypress)="onKeyPressed($event)" placeholder="Search..." />
-<button (click)="startSearch()">Search</button>
-<div *ngIf="searchResponse">
-  <label>{{searchResponse.totalElements}} results:</label>
-  <table>
+<label class="captionLabel">Dashboard</label>
+<div id="searchBar">
+  <input id="searchText" [(ngModel)]="request.term" (keypress)="onKeyPressed($event)" placeholder="Search..." />
+  <button class="borderButton" (click)="startSearch()">Search</button>
+</div>
+<div *ngIf="searchResponse" id="searchResultWrapper">
+  <label id="totalElements">{{searchResponse.totalElements}} results:</label>
+  <table width="700px" cellspacing="0" cellpadding="0">
+    <colgroup>
+      <col width="100px">
+      <col width="250px">
+      <col width="100px">
+      <col width="200px">
+      <col width="100px">
+    </colgroup>
     <thead>
-      <tr>
+      <tr id="header">
         <td>Title</td>
         <td>Preview</td>
         <td>Tags</td>
         <td>Date</td>
+        <td></td>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="#entry of searchResponse.entries" (click)="openEntry(entry.id)">
-          <td>{{entry.title}}</td>
-          <td>{{entry.content}}</td>
-          <td>{{entry.tags}}</td>
-          <td>{{entry.createdDate | date:'dd.MM.yyyy hh:mm:ss'}}</td>
+      <tr *ngFor="#entry of searchResponse.entries">
+          <td (click)="openEntry(entry.id)">{{entry.title}}</td>
+          <td (click)="openEntry(entry.id)">{{entry.content}}</td>
+          <td (click)="openEntry(entry.id)">{{entry.tags}}</td>
+          <td (click)="openEntry(entry.id)">{{entry.createdDate | date:"dd MM yyyy hh:mm:ss"}}</td>
+          <td><button class="deleteButton" (click)="deleteEntry(entry.id)">Delete</button></td>
       </tr>
     </tbody>
   </table>

@@ -45,6 +45,10 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'rxjs/Observable']
                         .map(function (res) { return res.json(); })
                         .catch(this.handleError);
                 };
+                RestService.prototype.delete = function (id) {
+                    var url = this.searchEntriesUrl + '/' + id;
+                    return this.http.delete(url);
+                };
                 RestService.prototype.search = function (request) {
                     console.info(request);
                     var params = new http_2.URLSearchParams();

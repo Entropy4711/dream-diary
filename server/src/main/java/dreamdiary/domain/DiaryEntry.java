@@ -20,8 +20,8 @@ public class DiaryEntry implements Serializable {
 	private Date createdDate;
 	private String title;
 	private String content;
-	private List<String> tags;
-	private List<String> images;
+	private List<ListEntry> tags;
+	private List<ListEntry> images;
 	
 	public String getTitle() {
 		return title;
@@ -39,11 +39,11 @@ public class DiaryEntry implements Serializable {
 		this.content = content;
 	}
 	
-	public List<String> getTags() {
+	public List<ListEntry> getTags() {
 		return tags;
 	}
 	
-	public void setTags(List<String> tags) {
+	public void setTags(List<ListEntry> tags) {
 		this.tags = tags;
 	}
 	
@@ -63,11 +63,11 @@ public class DiaryEntry implements Serializable {
 		this.createdDate = createdDate;
 	}
 	
-	public List<String> getImages() {
+	public List<ListEntry> getImages() {
 		return images;
 	}
 	
-	public void setImages(List<String> images) {
+	public void setImages(List<ListEntry> images) {
 		this.images = images;
 	}
 }

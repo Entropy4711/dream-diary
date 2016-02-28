@@ -6,7 +6,8 @@ import { Router } from 'angular2/router';
 
 @Component({
     selector: 'dashboard',
-    templateUrl: 'app/dashboard/dashboard.component.html'
+    templateUrl: 'app/dashboard/dashboard.component.html',
+    styleUrls: ['app/dashboard/dashboard.component.css']
 })
 
 export class DashboardComponent {
@@ -35,5 +36,9 @@ export class DashboardComponent {
 
     openEntry(id : string) {
       this._router.navigate(['Editor', { id: id }]);
+    }
+
+    deleteEntry(id : string) {
+      this.restService.delete(id).subscribe(resp => this.startSearch());
     }
 }

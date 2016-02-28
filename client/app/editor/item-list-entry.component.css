@@ -1,0 +1,34 @@
+.container {
+  background: #1c66ab;
+  color: white;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 10px;
+  padding-right: 15px;
+  cursor: pointer;
+  border: 1px solid #1c66ab;
+  border-radius: 30px;
+  line-height: 20px;
+  margin-right: 5px;
+  margin-top: 5px;
+  float: left;
+}
+
+.container:hover {
+
+}
+
+.closeButton {
+  background: transparent;
+  color: white;
+  border: none;
+  font-weight: bolder;
+  font-size: 17px;
+}
+
+.textField {
+  width: 100px;
+  padding: 2px;
+  line-height: 27px;
+  height: 27px;
+}

@@ -48,10 +48,15 @@ System.register(['angular2/core', '../model/diary-entry-search-request', '../ser
                 DashboardComponent.prototype.openEntry = function (id) {
                     this._router.navigate(['Editor', { id: id }]);
                 };
+                DashboardComponent.prototype.deleteEntry = function (id) {
+                    var _this = this;
+                    this.restService.delete(id).subscribe(function (resp) { return _this.startSearch(); });
+                };
                 DashboardComponent = __decorate([
                     core_1.Component({
                         selector: 'dashboard',
-                        templateUrl: 'app/dashboard/dashboard.component.html'
+                        templateUrl: 'app/dashboard/dashboard.component.html',
+                        styleUrls: ['app/dashboard/dashboard.component.css']
                     }), 
                     __metadata('design:paramtypes', [rest_service_1.RestService, router_1.Router])
                 ], DashboardComponent);

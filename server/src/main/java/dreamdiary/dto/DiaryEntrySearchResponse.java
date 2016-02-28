@@ -3,20 +3,18 @@ package dreamdiary.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import dreamdiary.domain.DiaryEntry;
-
 public class DiaryEntrySearchResponse implements Serializable {
 	
 	private static final long serialVersionUID = 7171649424624237707L;
 	
-	private List<DiaryEntry> entries;
+	private List<DiaryEntryListResult> entries;
 	private long totalElements;
 	
-	public List<DiaryEntry> getEntries() {
+	public List<DiaryEntryListResult> getEntries() {
 		return entries;
 	}
 	
-	public void setEntries(List<DiaryEntry> entries) {
+	public void setEntries(List<DiaryEntryListResult> entries) {
 		this.entries = entries;
 	}
 	

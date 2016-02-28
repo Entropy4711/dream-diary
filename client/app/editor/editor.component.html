@@ -1,12 +1,27 @@
-<h1>{{caption}}</h1>
+<label class="captionLabel">{{caption}}</label>
 <div class="editorMain">
   <input type=text class="titleInput" [(ngModel)]="entry.title" placeholder="Title" />
   <br/>
   <textarea class="contentInput" [(ngModel)]="entry.content" placeholder="Content"></textarea>
   <br/>
 
-  <button (click)="saveEntry()">Save</button>
-  <div>
-    
+  <div class="list">
+    <span class="nameLabel">Tags: </span>
+    <button class="borderButton addButton" (click)="addTag()">+</button>
+    <item-list-entry *ngFor="#item of entry.tags" [listEntry]="item" [listContainer]="entry.tags"></item-list-entry>
   </div>
+
+  <div style="clear: both;"></div>
+
+  <div class="list">
+    <span class="nameLabel">Images: </span>
+    <button class="borderButton addButton" (click)="addImage()">+</button>
+    <div style="clear: both;"></div>
+    <image-item-list-entry *ngFor="#item of entry.images" [listEntry]="item" [listContainer]="entry.images" [diaryEntry]="entry"></image-item-list-entry>
+  </div>
+
+  <div style="clear: both;"></div>
+
+  <button class="borderButton" (click)="saveEntry()">Save</button>
+  <button class="borderButton" (click)="cancel()">Cancel</button>
 </div>

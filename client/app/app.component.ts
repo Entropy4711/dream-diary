@@ -8,6 +8,7 @@ import {HTTP_PROVIDERS} from 'angular2/http';
 @Component({
     selector: 'dream-diary',
     templateUrl: 'app/app.component.html',
+    styleUrls: ['app/app.component.css'],
     directives: [ROUTER_DIRECTIVES],
     providers: [
       RestService,

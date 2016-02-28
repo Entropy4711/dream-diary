@@ -1,8 +1,37 @@
 .titleInput {
-  width: 400px
+  width: 1000px;
+  margin-bottom: 10px;
 }
 
 .contentInput {
-  width: 800px;
+  width: 1000px;
   height: 300px;
+}
+
+.list {
+  margin: 10px 10px 10px 0px;
+  overflow: hidden;
+  width: 985px;
+  border: 2px solid #1c66ab;
+  padding: 6px;
+}
+
+.nameLabel {
+  color: #1c66ab;
+  float: left;
+  line-height: 46px;
+}
+
+.addButton {
+  margin-left: 10px;
+  margin-right: 10px;
+  font-size: 18px;
+  padding: 0px !IMPORTANT;
+  float: left;
+  margin-top: 7px;
+}
+
+.addButton:hover {
+  border-color: #2a98ff;
+  color: #2a98ff;
 }

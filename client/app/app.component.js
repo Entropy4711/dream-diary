@@ -40,6 +40,7 @@ System.register(['angular2/core', 'angular2/router', './dashboard/dashboard.comp
                     core_1.Component({
                         selector: 'dream-diary',
                         templateUrl: 'app/app.component.html',
+                        styleUrls: ['app/app.component.css'],
                         directives: [router_1.ROUTER_DIRECTIVES],
                         providers: [
                             rest_service_1.RestService,

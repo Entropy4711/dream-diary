@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 
-    <!-- 1. Load libraries -->
-    <!-- IE required polyfills, in this exact order -->
     <script src="node_modules/es6-shim/es6-shim.min.js"></script>
     <script src="node_modules/systemjs/dist/system-polyfills.js"></script>
 
@@ -19,23 +18,26 @@
     <script src="node_modules/angular2/bundles/http.dev.js"></script>
     <script src="node_modules/rxjs/bundles/Rx.js"></script>
 
-    <!-- 2. Configure SystemJS -->
     <script>
       System.config({
         packages: {
           app: {
             format: 'register',
             defaultExtension: 'js'
+          },
+            'node_modules/ng2-file-upload': {},
+            'node_modules/ng2-bootstrap': {}
+          },
+          paths: {
+              "ng2-file-upload": "node_modules/ng2-file-upload/ng2-file-upload",
+              "ng2-bootstrap"  : "node_modules/ng2-bootstrap/ng2-bootstrap"
           }
-        }
       });
-      System.import('app/main')
-            .then(null, console.error.bind(console));
+      System.import('app/main').then(null, console.error.bind(console));
     </script>
 
   </head>
 
-  <!-- 3. Display the application -->
   <body>
     <dream-diary>Loading...</dream-diary>
   </body>

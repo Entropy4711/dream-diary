@@ -19,7 +19,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import dreamdiary.constants.MongoDbConstants;
-import dreamdiary.domain.DiaryEntry;
+import dreamdiary.dto.DiaryEntryListResult;
 import dreamdiary.dto.DiaryEntrySearchRequest;
 
 public class DiaryEntryRepositoryImpl implements DiaryEntryRepositoryCustom {
@@ -27,7 +27,7 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepositoryCustom {
 	private MongoTemplate mongoTemplate;
 	
 	@Override
-	public Page<DiaryEntry> search(DiaryEntrySearchRequest request) {
+	public Page<DiaryEntryListResult> search(DiaryEntrySearchRequest request) {
 		String term = request.getTerm();
 		int page = request.getPage();
 		int pageSize = request.getPageSize();
@@ -49,7 +49,7 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepositoryCustom {
 			conditions.add(new BasicDBObject("images", pattern));
 		}
 		
-		List<DiaryEntry> entries = new ArrayList<>(pageSize);
+		List<DiaryEntryListResult> entries = new ArrayList<>(pageSize);
 		
 		DBObject sort = new BasicDBObject();
 		sort.put(sortField, sortAscending ? 1 : -1);
@@ -58,7 +58,7 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepositoryCustom {
 			while (cursor.hasNext()) {
 				DBObject dbo = cursor.next();
 				
-				DiaryEntry entry = new DiaryEntry();
+				DiaryEntryListResult entry = new DiaryEntryListResult();
 				entries.add(entry);
 				
 				entry.setId(dbo.get("_id").toString());
@@ -75,9 +75,6 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepositoryCustom {
 				
 				List<String> tags = getStringList(dbo, "tags");
 				entry.setTags(tags);
-				
-				List<String> images = getStringList(dbo, "images");
-				entry.setImages(images);
 			}
 		}
 		
@@ -97,7 +94,8 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepositoryCustom {
 			List<String> tagStrings = new ArrayList<>(tags.size());
 			
 			for (Object tag : tags) {
-				tagStrings.add(tag.toString());
+				DBObject e = (DBObject)tag;
+				tagStrings.add((String)e.get("name"));
 			}
 			
 			return tagStrings;

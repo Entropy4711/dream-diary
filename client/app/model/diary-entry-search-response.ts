@@ -1,7 +1,7 @@
-import {Entry} from './entry';
+import {DiaryEntryListResult} from './diary-entry-list-result';
 
 export class DiaryEntrySearchResponse {
 
-  entries : Entry[];
+  entries : DiaryEntryListResult[];
   totalElements : number;
 }
