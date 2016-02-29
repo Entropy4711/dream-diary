@@ -71,6 +71,21 @@ public class MongoRESTController {
 		
 		if (entry.getImages() == null) {
 			entry.setImages(new ArrayList<>(0));
+		} else if (entry.getId() != null) {
+			DiaryEntry original = diaryEntryRepository.findOne(entry.getId());
+			
+			if (original != null) {
+				List<ListEntry> newImages = entry.getImages();
+				List<ListEntry> oldImages = original.getImages();
+				
+				for (ListEntry oldImage : oldImages) {
+					if (!newImages.contains(oldImage)) {
+						String completeFilePath = imagesPath + oldImage.getName();
+						File file = new File(completeFilePath);
+						file.delete();
+					}
+				}
+			}
 		}
 		
 		return diaryEntryRepository.save(entry);
