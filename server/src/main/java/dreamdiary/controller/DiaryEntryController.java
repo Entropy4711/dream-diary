@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.security.RolesAllowed;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import dreamdiary.constants.Roles;
 import dreamdiary.domain.DiaryEntry;
 import dreamdiary.domain.ListEntry;
 import dreamdiary.dto.DiaryEntryListResult;
@@ -41,9 +43,9 @@ import dreamdiary.dto.DiaryEntrySearchResponse;
 import dreamdiary.repository.DiaryEntryRepository;
 
 @RestController
-public class MongoRESTController {
+public class DiaryEntryController {
 	
-	private static final Logger log = LoggerFactory.getLogger(MongoRESTController.class);
+	private static final Logger log = LoggerFactory.getLogger(DiaryEntryController.class);
 	
 	@Value("${images.path}")
 	private String imagesPath;
@@ -59,6 +61,7 @@ public class MongoRESTController {
 		}
 	}
 	
+	@RolesAllowed({ Roles.WRITE })
 	@RequestMapping(value = "/entries", method = RequestMethod.POST)
 	public DiaryEntry saveDiaryEntry(@RequestBody DiaryEntry entry) {
 		if (entry.getId() == null) {
@@ -91,16 +94,19 @@ public class MongoRESTController {
 		return diaryEntryRepository.save(entry);
 	}
 	
+	@RolesAllowed({ Roles.READ })
 	@RequestMapping(value = "/entries/{id}", method = RequestMethod.GET)
 	public DiaryEntry getEntry(@PathVariable String id) {
 		return diaryEntryRepository.findOne(id);
 	}
 	
+	@RolesAllowed({ Roles.WRITE })
 	@RequestMapping(value = "/entries/{id}", method = RequestMethod.DELETE)
 	public void deleteEntry(@PathVariable String id) {
 		diaryEntryRepository.delete(id);
 	}
 	
+	@RolesAllowed({ Roles.READ })
 	@RequestMapping(value = "/entries", method = RequestMethod.GET)
 	public DiaryEntrySearchResponse search(
 			//@formatter:off
@@ -136,6 +142,7 @@ public class MongoRESTController {
 		return response;
 	}
 	
+	@RolesAllowed({ Roles.WRITE })
 	@RequestMapping(value = "/images/{diaryEntryId}", method = RequestMethod.POST)
 	public void uploadImage(@PathVariable String diaryEntryId, @RequestParam("file") MultipartFile multiPartFile) {
 		String imageName = multiPartFile.getOriginalFilename();
@@ -151,6 +158,7 @@ public class MongoRESTController {
 		}
 	}
 	
+	@RolesAllowed({ Roles.READ })
 	@RequestMapping(value = "/images/{diaryEntryId}/{imageName}/", method = RequestMethod.GET)
 	public ResponseEntity<byte[]> getImage(
 			//@formatter:off

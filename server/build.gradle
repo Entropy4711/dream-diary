@@ -4,9 +4,9 @@ apply plugin: 'application'
 
 mainClassName = "dreamdiary.config.Main"
 
-applicationDefaultJvmArgs = [
-    "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
-]
+//applicationDefaultJvmArgs = [
+//	"-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
+//]
 
 repositories {
     mavenCentral()
@@ -30,7 +30,9 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web:1.3.2.RELEASE',
     		'org.springframework.data:spring-data-mongodb:1.8.4.RELEASE',
     		'org.apache.commons:commons-lang3:3.4',
-    		'commons-io:commons-io:2.4'
+    		'commons-io:commons-io:2.4',
+			'org.springframework.security:spring-security-web:4.0.4.RELEASE',
+			'org.springframework.security:spring-security-config:4.0.4.RELEASE'
 }
 
 task wrapper(type: Wrapper) {

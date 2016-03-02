@@ -2,7 +2,7 @@
   overflow: hidden;
 }
 
-#totalElements{
+#totalElements {
   font-weight: bold;
   margin-bottom: 4px;
 }
@@ -44,4 +44,16 @@ tr:nth-child(odd):hover {
 
 td {
   padding: 4px;
+}
+
+@media (min-width: 1000px) {
+  table {
+    width: 1000px;
+  } 
+}
+
+@media (max-width: 999px) {
+  table {
+    width: 100%;
+  } 
 }

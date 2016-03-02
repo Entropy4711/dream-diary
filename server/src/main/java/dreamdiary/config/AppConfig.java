@@ -18,7 +18,7 @@ import dreamdiary.constants.MongoDbConstants;
 @EnableMongoRepositories(basePackages = "dreamdiary.repository")
 @EnableWebMvc
 @ComponentScan(basePackages = "dreamdiary")
-public class MongoConfig {
+public class AppConfig {
 	
 	@Value("${mongodb.host}")
 	private String mongoDbHost;
@@ -42,6 +42,9 @@ public class MongoConfig {
 		collection.createIndex(new BasicDBObject("createdDate", 1), "idx_diary_entry_createdDate");
 		collection.createIndex(new BasicDBObject("tags", 1), "idx_diary_entry_tags");
 		collection.createIndex(new BasicDBObject("images", 1), "idx_diary_entry_images");
+		
+		collection = mongoTemplate.getCollection(MongoDbConstants.login);
+		collection.createIndex(new BasicDBObject("username", 1), "idx_login_username");
 		
 		return mongoTemplate;
 	}
