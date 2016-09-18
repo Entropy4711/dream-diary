@@ -1,8 +1,8 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {DiaryEntrySearchRequest} from '../model/diary-entry-search-request';
 import {DiaryEntrySearchResponse} from '../model/diary-entry-search-response';
 import {RestService} from '../service/rest.service';
-import { Router } from 'angular2/router';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'dashboard',

@@ -8,10 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var diary_entry_search_request_1 = require('../model/diary-entry-search-request');
 var rest_service_1 = require('../service/rest.service');
-var router_1 = require('angular2/router');
+var router_1 = require('@angular/router');
 var DashboardComponent = (function () {
     function DashboardComponent(restService, _router) {
         this.restService = restService;
@@ -43,10 +43,9 @@ var DashboardComponent = (function () {
             templateUrl: 'app/dashboard/dashboard.component.html',
             styleUrls: ['app/dashboard/dashboard.component.css']
         }), 
-        __metadata('design:paramtypes', [rest_service_1.RestService, (typeof (_a = typeof router_1.Router !== 'undefined' && router_1.Router) === 'function' && _a) || Object])
+        __metadata('design:paramtypes', [rest_service_1.RestService, router_1.Router])
     ], DashboardComponent);
     return DashboardComponent;
-    var _a;
 }());
 exports.DashboardComponent = DashboardComponent;
 //# sourceMappingURL=dashboard.component.js.map

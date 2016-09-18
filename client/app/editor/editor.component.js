@@ -8,14 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('angular2/core');
+var core_1 = require('@angular/core');
 var diary_entry_1 = require('../model/diary-entry');
 var rest_service_1 = require('../service/rest.service');
-var router_1 = require('angular2/router');
+var router_1 = require('@angular/router');
 var item_list_entry_component_1 = require('./item-list-entry.component');
 var image_item_list_entry_component_1 = require('./image-item-list-entry.component');
 var list_entry_1 = require('../model/list-entry');
-var router_2 = require('angular2/router');
+var router_2 = require('@angular/router');
 var EditorComponent = (function () {
     function EditorComponent(restService, routeParams, _router) {
         this.restService = restService;
@@ -80,10 +80,10 @@ var EditorComponent = (function () {
             styleUrls: ['app/editor/editor.component.css'],
             directives: [item_list_entry_component_1.ItemListEntry, image_item_list_entry_component_1.ImageItemListEntry]
         }), 
-        __metadata('design:paramtypes', [rest_service_1.RestService, (typeof (_a = typeof router_1.RouteParams !== 'undefined' && router_1.RouteParams) === 'function' && _a) || Object, (typeof (_b = typeof router_2.Router !== 'undefined' && router_2.Router) === 'function' && _b) || Object])
+        __metadata('design:paramtypes', [rest_service_1.RestService, (typeof (_a = typeof router_1.RouteParams !== 'undefined' && router_1.RouteParams) === 'function' && _a) || Object, router_2.Router])
     ], EditorComponent);
     return EditorComponent;
-    var _a, _b;
+    var _a;
 }());
 exports.EditorComponent = EditorComponent;
 //# sourceMappingURL=editor.component.js.map

@@ -1,11 +1,11 @@
-import {Injectable} from 'angular2/core';
+import {Injectable} from '@angular/core';
 import {DiaryEntry} from '../model/diary-entry';
-import {Http, Response, Headers, RequestOptions} from 'angular2/http';
+import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Observable';
 import {DiaryEntrySearchRequest} from '../model/diary-entry-search-request';
 import {DiaryEntrySearchResponse} from '../model/diary-entry-search-response';
-import {URLSearchParams} from 'angular2/http';
+import {URLSearchParams} from '@angular/http';
 
 @Injectable()
 export class RestService {

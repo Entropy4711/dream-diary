@@ -1,5 +1,5 @@
-import {Component} from 'angular2/core';
-import {Input} from 'angular2/core';
+import {Component} from '@angular/core';
+import {Input} from '@angular/core';
 import {ListEntry} from '../model/list-entry';
 import {DiaryEntry} from '../model/diary-entry';
 

@@ -1,11 +1,11 @@
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 import {DiaryEntry} from '../model/diary-entry';
 import {RestService} from '../service/rest.service';
-import {RouteParams} from 'angular2/router';
+import {RouteParams} from '@angular/router';
 import {ItemListEntry} from './item-list-entry.component';
 import {ImageItemListEntry} from './image-item-list-entry.component';
 import {ListEntry} from '../model/list-entry';
-import { Router } from 'angular2/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'editor',

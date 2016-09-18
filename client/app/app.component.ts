@@ -1,9 +1,9 @@
-import {Component} from 'angular2/core';
-import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from 'angular2/router';
+import {Component} from '@angular/core';
+import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/router';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {EditorComponent} from './editor/editor.component';
 import {RestService} from './service/rest.service';
-import {HTTP_PROVIDERS} from 'angular2/http';
+import {HTTP_PROVIDERS} from '@angular/http';
 
 @Component({
     selector: 'dream-diary',

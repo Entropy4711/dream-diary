@@ -8,8 +8,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('angular2/core');
-var core_2 = require('angular2/core');
+var core_1 = require('@angular/core');
+var core_2 = require('@angular/core');
 var list_entry_1 = require('../model/list-entry');
 var ItemListEntry = (function () {
     function ItemListEntry() {
