@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	
+	<link href="../static/css/all.css" th:href="@{css/all.css}" rel="stylesheet" />
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="../static/js/shared.js" th:src="@{js/shared.js}"></script>
+	
+	<title>Dream Diary</title>
+	
+	<script>
+		function getParamsFromUrl() {
+			let url = "?searchTerm=" + getUrlParam("searchTerm") + "&amp;page=" + getCurrentPage();
+			return url.replace('amp;', '');
+		}
+		
+		function getEntryParams(page) {
+			let url = "";
+			
+			const searchTerm = $("#search-term").val();
+			url = url + "?searchTerm=" + searchTerm;
+			
+			url = url + "&amp;page=" + page;
+			
+			return url.replace('amp;', '');
+		}
+		
+		function startSearch(page) {
+			window.location.href = "/dashboard" + getEntryParams(page);
+		}
+		
+		function getCurrentPage() {
+			let pageString = getUrlParam("page");
+			
+			if (pageString == "") {
+				pageString = "0";
+			}
+			
+			return parseInt(pageString);
+		}
+		
+		$(document).ready(function() {
+			$("#entry-result-wrapper").load("/entries" + getParamsFromUrl(), function() {
+				$("a").click(function(event) {
+					const page = parseInt(event.target.attributes[0].value);
+					startSearch(page);
+				});
+				
+				$(".dd-table-body").click(function(event) {
+					const id = $(event.target).parent()[0].attributes[0].value;
+					window.location.href = "/entry?id=" + id;
+				});
+			});
+			
+			$("#search-term").val(getUrlParam("searchTerm"));
+			
+		 	$("#entry-search-button").click(function() {
+		 		startSearch(0);
+		 	});
+		});
+	</script>
+</head>
+
+<body>
+	<div th:include="navigation :: navigation"></div>
+
+	<div class="row">
+		<div class="col-md-10 col-lg-8">
+			<div class="row">
+				<div class="col-xs-8">
+					<input type="text" id="search-term" placeholder="Search in title, text or tags" />
+				</div>
+				<div class="col-xs-4 text-left">
+					<button id="entry-search-button">Search</button>
+				</div>
+			</div>
+			<div id="entry-result-wrapper"></div>
+		</div>
+	</div>
+</body>
+</html>

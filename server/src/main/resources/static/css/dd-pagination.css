@@ -1,0 +1,10 @@
+.dd-pagination-button {
+	border: 0 none;
+	background: transparent;
+	padding: 0;
+	margin: 0;
+}
+
+.pagination a {
+	cursor: pointer;
+}

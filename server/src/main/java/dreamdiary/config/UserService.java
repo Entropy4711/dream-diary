@@ -17,26 +17,27 @@ import dreamdiary.repository.LoginRepository;
 
 @Service
 public class UserService implements UserDetailsService {
-	
+
 	@Autowired
 	private LoginRepository loginRepository;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Login login = loginRepository.findByUsername(username);
-		
-		if (login != null) {
+		List<Login> logins = loginRepository.findByUsername(username);
+
+		if (logins != null && logins.size() == 1) {
+			Login login = logins.get(0);
 			List<String> roles = login.getRoles();
 			List<GrantedAuthority> authorities = new ArrayList<>(roles.size());
-			
+
 			for (String role : roles) {
 				GrantedAuthority ga = new SimpleGrantedAuthority(role);
 				authorities.add(ga);
 			}
-			
+
 			return new User(username, login.getPassword(), authorities);
 		}
-		
+
 		throw new UsernameNotFoundException("User with name '" + username + "' was not found!");
 	}
 }

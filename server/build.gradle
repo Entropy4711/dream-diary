@@ -2,15 +2,21 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 
 buildscript {
-    repositories {
-        mavenCentral()
-    }
+	repositories {
+		mavenCentral()
+		
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+	}
 
     dependencies {
         classpath 'org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE'
+        classpath 'net.ltgt.gradle:gradle-apt-plugin:0.8'
     }
 }
 apply plugin: 'spring-boot'
+apply plugin: 'net.ltgt.apt'
 
 repositories {
     mavenCentral()
@@ -20,18 +26,75 @@ springBoot {
     mainClass = "dreamdiary.config.Main"
 }
 
+ext {
+    javaLanguageLevel = '1.8'
+    generatedMapperSourcesDir = "${buildDir}/generated-src/mapstruct/main"
+}
+
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+configurations {
+    mapstruct
+}
+
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web:1.4.0.RELEASE',
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf',
+    		'org.springframework.boot:spring-boot-devtools',
     		'org.springframework.data:spring-data-mongodb:1.9.2.RELEASE',
     		'org.apache.commons:commons-lang3:3.4',
     		'commons-io:commons-io:2.4',
 			'org.springframework.security:spring-security-web:4.0.4.RELEASE',
-			'org.springframework.security:spring-security-config:4.0.4.RELEASE'
+			'org.springframework.security:spring-security-config:4.0.4.RELEASE',
+			'org.mapstruct:mapstruct-jdk8:1.1.0.CR1'
+			
+	mapstruct('org.mapstruct:mapstruct-processor:1.1.0.CR1')
 }
 
 task wrapper(type: Wrapper) {
     gradleVersion = '3.0'
 }
+
+sourceSets.main {
+	ext.originalJavaSrcDirs = java.srcDirs
+	java.srcDir "${generatedMapperSourcesDir}"
+}
+
+compileJava {
+    options.compilerArgs = [
+        '-Amapstruct.suppressGeneratorTimestamp=true',
+        '-Amapstruct.suppressGeneratorVersionInfoComment=true'
+    ]
+}
+
+task generateMainMapperClasses(type: JavaCompile) {
+    ext.aptDumpDir = file( "${buildDir}/tmp/apt/mapstruct" )
+    destinationDir = aptDumpDir
+ 
+    classpath = compileJava.classpath + configurations.mapstruct
+    source = sourceSets.main.originalJavaSrcDirs
+    ext.sourceDestDir = file ( "$generatedMapperSourcesDir" )
+ 
+    options.define(
+        compilerArgs: [
+            "-nowarn",
+            "-proc:only",
+            "-encoding", "UTF-8",
+            "-processor", "org.mapstruct.ap.MappingProcessor",
+            "-s", sourceDestDir.absolutePath,
+            "-source", rootProject.javaLanguageLevel,
+            "-target", rootProject.javaLanguageLevel,
+        ]
+    );
+ 
+    inputs.dir source
+    outputs.dir generatedMapperSourcesDir;
+    doFirst {
+         sourceDestDir.mkdirs()
+    }
+    doLast {
+        aptDumpDir.delete()
+    }
+}
+
+compileJava.dependsOn generateMainMapperClasses

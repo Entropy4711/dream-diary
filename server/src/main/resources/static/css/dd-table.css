@@ -1,0 +1,14 @@
+.dd-table {
+	
+}
+
+.dd-table-header {
+	background: blue;
+	color: white;
+	font-weight: bold;
+	padding: 2px;
+}
+
+.dd-table-line {
+	padding: 2px;
+}

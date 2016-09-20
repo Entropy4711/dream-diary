@@ -1,5 +1,0 @@
-<div class="container">
-  <button class="closeButton" (click)="removeListEntry()">X</button>
-  <span class="textLabel" [hidden]="listEntry.isEditing" (click)="toggleEditing()">{{listEntry.name}}</span>
-  <input class="textField" [hidden]="!listEntry.isEditing" [(ngModel)]="listEntry.name" (keypress)="onKeyPressed($event)" (blur)="toggleEditing()" />
-</div>

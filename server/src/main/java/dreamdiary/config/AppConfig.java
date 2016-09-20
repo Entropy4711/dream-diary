@@ -3,6 +3,7 @@ package dreamdiary.config;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -18,7 +19,7 @@ import dreamdiary.constants.MongoDbConstants;
 @EnableMongoRepositories(basePackages = "dreamdiary.repository")
 @EnableWebMvc
 @ComponentScan(basePackages = "dreamdiary")
-public class AppConfig {
+public class AppConfig extends WebMvcAutoConfiguration {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;

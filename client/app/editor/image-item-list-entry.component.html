@@ -1,6 +1,0 @@
-<div class="container">
-  <a class="closeButton" [hidden]="listEntry.isEditing" (click)="removeListEntry()">Delete</a>
-  <br/>
-  <img class="thumbnailImage" [src]="imageUrl" [hidden]="listEntry.isEditing" (click)="showFullImage()" />
-  <input class="fileUploader" type="file" ng2-file-select [uploader]="listEntry.uploader" [hidden]="!listEntry.isEditing" />
-</div>
