@@ -1,5 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/standardhead :: standardhead"></head>
+
 <body>
 	<nav th:fragment="navigation">
 		<a th:href="@{/dashboard}">Dashboard</a>

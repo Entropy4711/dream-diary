@@ -1,17 +1,16 @@
 package dreamdiary.controller;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import dreamdiary.domain.DiaryEntry;
-import dreamdiary.dto.DiaryEntryDTO;
 import dreamdiary.dto.DiaryEntrySearchResponse;
 import dreamdiary.mapper.DiaryEntryMapper;
 import dreamdiary.service.DiaryEntryService;
@@ -34,7 +33,12 @@ public class ThymeleafController {
 	
 	@RequestMapping(value = "/navigation", method = RequestMethod.GET)
 	public String navigation() {
-		return "navigation";
+		return "fragments/navigation :: navigation";
+	}
+	
+	@RequestMapping(value = "/standardhead", method = RequestMethod.GET)
+	public String standardhead() {
+		return "fragments/standardhead :: standardhead";
 	}
 	
 	@RequestMapping(value = "/entries", method = RequestMethod.GET)
@@ -59,7 +63,7 @@ public class ThymeleafController {
 		DiaryEntrySearchResponse response = diaryEntryService.search(page, pageSize, searchTerm, sortField, sortAscending);
 		model.addAttribute("searchResponse", response);
 		
-		return "entries";
+		return "fragments/entries :: entries";
 	}
 	
 	@RequestMapping(value = "/entry", method = RequestMethod.GET)
@@ -74,11 +78,16 @@ public class ThymeleafController {
 		return "entry";
 	}
 	
-	@RequestMapping(value = "/entry", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	@ResponseBody
-	public DiaryEntryDTO saveEntry(@RequestBody DiaryEntryDTO entry) {
-		DiaryEntry bo = diaryEntryService.saveDiaryEntry(mapper.entryToBO(entry));
-		return mapper.entryToDTO(bo);
+	@RequestMapping(value = "/tags", method = RequestMethod.GET)
+	public String tags(@RequestParam(required = false) List<String> tags, Model model) {
+		model.addAttribute("tags", StringUtils.join(tags, ","));
+		return "fragments/tags :: tags";
+	}
+	
+	@RequestMapping(value = "/images", method = RequestMethod.GET)
+	public String images(@RequestParam(required = false) List<String> images, Model model) {
+		model.addAttribute("images", images);
+		return "fragments/images :: images";
 	}
 	
 	@Autowired

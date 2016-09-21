@@ -1,0 +1,10 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/standardhead :: standardhead"></head>
+
+<body>
+	<div th:fragment="tags" class="row">
+		<div class="col-xs-3" th:each="tag : ${tags}" th:value="${tag}" th:text="${tag}">Albtraum</div>
+	</div>
+</body>
+</html>

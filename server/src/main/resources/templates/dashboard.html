@@ -1,15 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	
-	<link href="../static/css/all.css" th:href="@{css/all.css}" rel="stylesheet" />
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="../static/js/shared.js" th:src="@{js/shared.js}"></script>
-	
-	<title>Dream Diary</title>
-	
+<head th:replace="fragments/standardhead :: standardhead"></head>
+
+<body>
 	<script>
 		function getParamsFromUrl() {
 			let url = "?searchTerm=" + getUrlParam("searchTerm") + "&amp;page=" + getCurrentPage();
@@ -61,23 +54,19 @@
 		 	});
 		});
 	</script>
-</head>
 
-<body>
-	<div th:include="navigation :: navigation"></div>
-
-	<div class="row">
-		<div class="col-md-10 col-lg-8">
-			<div class="row">
-				<div class="col-xs-8">
-					<input type="text" id="search-term" placeholder="Search in title, text or tags" />
-				</div>
-				<div class="col-xs-4 text-left">
-					<button id="entry-search-button">Search</button>
-				</div>
+	<div class="container">
+		<div th:include="fragments/navigation :: navigation"></div>
+	
+		<div class="row">
+			<div class="col-xs-8">
+				<input type="text" id="search-term" placeholder="Search in title, text or tags" />
 			</div>
-			<div id="entry-result-wrapper"></div>
+			<div class="col-xs-4 text-left">
+				<button id="entry-search-button">Search</button>
+			</div>
 		</div>
+		<div class="col-xs-12" id="entry-result-wrapper"></div>
 	</div>
 </body>
 </html>

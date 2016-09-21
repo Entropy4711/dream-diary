@@ -94,8 +94,7 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepositoryCustom {
 			List<String> tagStrings = new ArrayList<>(tags.size());
 			
 			for (Object tag : tags) {
-				DBObject e = (DBObject)tag;
-				tagStrings.add((String)e.get("name"));
+				tagStrings.add(tag.toString());
 			}
 			
 			return tagStrings;

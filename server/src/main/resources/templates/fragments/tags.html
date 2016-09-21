@@ -1,0 +1,10 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/standardhead :: standardhead"></head>
+
+<body>
+	<div th:fragment="tags" class="dd-tags">
+		<input type="text" id="txt-tags" th:value="${tags}" data-role="tagsinput" placeholder="Tags"/>
+	</div>
+</body>
+</html>

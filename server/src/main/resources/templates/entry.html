@@ -1,16 +1,17 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	
-	<link href="../static/css/all.css" th:href="@{css/all.css}" rel="stylesheet" />
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="../static/js/shared.js" th:src="@{js/shared.js}"></script>
-	
-	<title>Dream Diary</title>
-	
+<head th:replace="fragments/standardhead :: standardhead"></head>
+
+<body>
 	<script>
+		function loadTags() {
+			const tags = $("#tags-wrapper")[0].attributes[0].value.replace('[', '').replace(']', '').replace(', ', ',');
+			
+			$("#tags-wrapper").load("/tags?tags=" + tags, function() {
+				$('#txt-tags').tagsinput('refresh');
+			});
+		}
+	
 		$(document).ready(function() {
 			$("#btn-save-entry").click(function(event) {
 				const entry = {
@@ -24,33 +25,35 @@
 					entry.id = id;
 				}
 				
-				const json = JSON.stringify(entry);
-				
 				$.ajax({
 					type: "POST",
 					url: "/entry", 
-					data: json, 
+					data: JSON.stringify(entry), 
 					contentType : 'application/json',
 					success: function(data)  {
 						window.location.href = "/entry?id=" + data.id;
 					}
 				});
 			});
+			
+			loadTags();
 		});	
 	</script>
-</head>
-
-<body>
-	<div th:replace="navigation :: navigation"></div>
-
-	<h3>Entry</h3>
 	
-	<div class="row">
-		<div class="col-sm-10 col-lg-8">
-			<input id="txt-title" type="text" placeholder="Title" th:value="${entry.title}" />
-			<textarea id="txt-content" placeholder="Content" th:text="${entry.content}"></textarea>
-			
-			<button id="btn-save-entry">Save</button>
+	<div class="container">
+		<div th:replace="fragments/navigation :: navigation"></div>
+	
+		<h3>Entry</h3>
+	
+		<div class="row">
+			<div class="col-xs-12">
+				<input id="txt-title" type="text" placeholder="Title" th:value="${entry.title}" />
+				<textarea id="txt-content" placeholder="Content" th:text="${entry.content}"></textarea>
+				
+				<div id="tags-wrapper" th:value="${entry.tags}"></div>
+				
+				<button id="btn-save-entry">Save</button>
+			</div>
 		</div>
 	</div>
 </body>
