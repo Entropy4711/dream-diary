@@ -3,8 +3,15 @@
 <head th:replace="fragments/standardhead :: standardhead"></head>
 
 <body>
-	<div th:fragment="tags" class="row">
-		<div class="col-xs-3" th:each="tag : ${tags}" th:value="${tag}" th:text="${tag}">Albtraum</div>
+	<div th:fragment="images" class="row">
+		<div class="col-xs-2">
+			Images: 
+			<input id="fileupload" type="file" name="file" data-url="/image" />
+		</div>
+		
+		<div class="col-xs-2" th:each="image : ${images}" th:value="${image}">
+			<img width="70px" th:src="'/image/' + ${image}"/>
+		</div>
 	</div>
 </body>
 </html>

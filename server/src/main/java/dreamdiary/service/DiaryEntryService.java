@@ -135,7 +135,7 @@ public class DiaryEntryService {
 	}
 	
 	@RolesAllowed({ Roles.WRITE })
-	public void uploadImage(String diaryEntryId, MultipartFile multiPartFile) {
+	public void saveImage(MultipartFile multiPartFile) {
 		String imageName = multiPartFile.getOriginalFilename();
 		String completeFilePath = imagesPath + imageName;
 		
@@ -150,49 +150,37 @@ public class DiaryEntryService {
 	}
 	
 	@RolesAllowed({ Roles.READ })
-	public ResponseEntity<byte[]> getImage(String diaryEntryId, String imageName, Integer width, Integer height, HttpServletResponse resp) {
-		DiaryEntry entry = diaryEntryRepository.findOne(diaryEntryId);
+	public ResponseEntity<byte[]> getImage(String imageName, Integer width, Integer height, HttpServletResponse resp) {
+		String completeImagePath = imagesPath + imageName;
 		
-		if (entry != null) {
-			List<String> images = entry.getImages();
+		try {
+			BufferedImage sourceImage = ImageIO.read(new File(completeImagePath));
 			
-			if (images != null) {
-				for (String imageEntry : images) {
-					if (imageEntry != null && imageEntry.equals(imageName)) {
-						String completeImagePath = imagesPath + imageName;
-						
-						try {
-							BufferedImage sourceImage = ImageIO.read(new File(completeImagePath));
-							
-							if (width != null && height != null) {
-								double orignWidth = sourceImage.getWidth();
-								double originHeight = sourceImage.getHeight();
-								
-								double widthScale = width / orignWidth;
-								double heightScale = height / originHeight;
-								
-								BufferedImage targetImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-								Graphics2D graphics = targetImage.createGraphics();
-								AffineTransform transform = AffineTransform.getScaleInstance(widthScale, heightScale);
-								graphics.drawRenderedImage(sourceImage, transform);
-								
-								sourceImage = targetImage;
-							}
-							
-							ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-							ImageIO.write(sourceImage, "jpeg", outStream);
-							
-							HttpHeaders headers = new HttpHeaders();
-							headers.setContentType(MediaType.IMAGE_JPEG);
-							
-							byte[] byteArray = outStream.toByteArray();
-							return new ResponseEntity<>(byteArray, headers, HttpStatus.CREATED);
-						} catch (Exception e) {
-							log.error("Unable to read image '" + completeImagePath + "': ", e);
-						}
-					}
-				}
+			if (width != null && height != null) {
+				double orignWidth = sourceImage.getWidth();
+				double originHeight = sourceImage.getHeight();
+				
+				double widthScale = width / orignWidth;
+				double heightScale = height / originHeight;
+				
+				BufferedImage targetImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+				Graphics2D graphics = targetImage.createGraphics();
+				AffineTransform transform = AffineTransform.getScaleInstance(widthScale, heightScale);
+				graphics.drawRenderedImage(sourceImage, transform);
+				
+				sourceImage = targetImage;
 			}
+			
+			ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+			ImageIO.write(sourceImage, "jpeg", outStream);
+			
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.IMAGE_JPEG);
+			
+			byte[] byteArray = outStream.toByteArray();
+			return new ResponseEntity<>(byteArray, headers, HttpStatus.CREATED);
+		} catch (Exception e) {
+			log.error("Unable to read image '" + completeImagePath + "': ", e);
 		}
 		
 		resp.setStatus(HttpServletResponse.SC_NOT_FOUND);

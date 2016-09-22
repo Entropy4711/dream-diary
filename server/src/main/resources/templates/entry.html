@@ -5,10 +5,38 @@
 <body>
 	<script>
 		function loadTags() {
-			const tags = $("#tags-wrapper")[0].attributes[0].value.replace('[', '').replace(']', '').replace(', ', ',');
+			const tags = $("#tags-wrapper")[0].attributes[0].value;
 			
 			$("#tags-wrapper").load("/tags?tags=" + tags, function() {
 				$('#txt-tags').tagsinput('refresh');
+			});
+		}
+		
+		function loadImages() {
+			const images = $("#images-wrapper")[0].attributes[0].value;
+			
+			$("#images-wrapper").load("/images?images=" + images, function() {
+				$(function () {
+				    $('#fileupload').fileupload({
+				        dataType: 'json',
+				        done: function (e, data) {
+				            const filename = data.result.files[0].name;
+				            const imagesArray = images.split(',');
+				            imagesArray.push(filename);
+				            
+				            const finalArray = [];
+				            
+				            imagesArray.forEach(function(i) {
+				            	if (i != '') {
+				            		finalArray.push(i);
+				            	}
+				            });
+				            
+				            $("#images-wrapper")[0].attributes[0].value = finalArray.toString();
+				            loadImages();
+				        }
+				    });
+				});
 			});
 		}
 	
@@ -16,7 +44,9 @@
 			$("#btn-save-entry").click(function(event) {
 				const entry = {
 					title: $("#txt-title").val(),
-					content: $("#txt-content").val()
+					content: $("#txt-content").val(),
+					tags: $('#txt-tags').val().split(','),
+					images: $("#images-wrapper")[0].attributes[0].value.split(',')
 				};
 				
 				const id = getUrlParam("id");
@@ -37,6 +67,7 @@
 			});
 			
 			loadTags();
+			loadImages();
 		});	
 	</script>
 	
@@ -50,11 +81,16 @@
 				<input id="txt-title" type="text" placeholder="Title" th:value="${entry.title}" />
 				<textarea id="txt-content" placeholder="Content" th:text="${entry.content}"></textarea>
 				
-				<div id="tags-wrapper" th:value="${entry.tags}"></div>
+				<div id="tags-wrapper" th:value="${#strings.listJoin(entry.tags, ',')}"></div>
+				<div id="images-wrapper" th:value="${#strings.listJoin(entry.images, ',')}"></div>
 				
 				<button id="btn-save-entry">Save</button>
 			</div>
 		</div>
 	</div>
+		
+	<script src="../static/js/fileupload/vendor/jquery.ui.widget.js" th:src="@{js/fileupload/vendor/jquery.ui.widget.js}"></script>
+	<script src="../static/js/fileupload/jquery.iframe-transport.js" th:src="@{js/fileupload/jquery.iframe-transport.js}"></script>
+	<script src="../static/js/fileupload/jquery.fileupload.js" th:src="@{js/fileupload/jquery.fileupload.js}"></script>
 </body>
 </html>
