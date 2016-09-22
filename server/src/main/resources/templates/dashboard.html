@@ -37,12 +37,12 @@
 		$(document).ready(function() {
 			$("#entry-result-wrapper").load("/entries" + getParamsFromUrl(), function() {
 				$("a").click(function(event) {
-					const page = parseInt(event.target.attributes[0].value);
+					const page = parseInt(event.target.attributes.value.value);
 					startSearch(page);
 				});
 				
 				$(".dd-table-body").click(function(event) {
-					const id = $(event.target).parent()[0].attributes[0].value;
+					const id = $(event.target).parent()[0].id;
 					window.location.href = "/entry?id=" + id;
 				});
 			});
@@ -56,10 +56,10 @@
 	</script>
 
 	<div class="container">
-		<div th:include="fragments/navigation :: navigation"></div>
+		<div th:replace="fragments/navigation :: navigation"></div>
 	
 		<div class="row">
-			<div class="col-xs-8">
+			<div class="col-xs-6">
 				<input type="text" id="search-term" placeholder="Search in title, text or tags" />
 			</div>
 			<div class="col-xs-4 text-left">

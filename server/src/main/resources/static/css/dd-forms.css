@@ -1,7 +1,21 @@
 input, textarea {
 	width: 100%;
+	border: 1px solid #1c66ab;
+	border-radius: 0;
+	padding: 4px;
 }
 
 textarea {
 	height: 150px;
+	margin-top: 5px !IMPORTANT;
+	margin-bottom: 5px !IMPORTANT;
+}
+
+button {
+	border: 1px solid #1c66ab;
+	border-radius: 0;
+	padding: 4px;
+	background: transparent;
+	color: #1c66ab !IMPORTANT;
+	font-weight: bold !IMPORTANT;
 }

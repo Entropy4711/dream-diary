@@ -2,7 +2,6 @@ package dreamdiary.dto;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 public class DiaryEntryListResult implements Serializable {
 	
@@ -12,7 +11,7 @@ public class DiaryEntryListResult implements Serializable {
 	private Date createdDate;
 	private String title;
 	private String content;
-	private List<String> tags;
+	private String tags;
 	
 	public String getId() {
 		return id;
@@ -46,11 +45,11 @@ public class DiaryEntryListResult implements Serializable {
 		this.content = content;
 	}
 	
-	public List<String> getTags() {
+	public String getTags() {
 		return tags;
 	}
 	
-	public void setTags(List<String> tags) {
+	public void setTags(String tags) {
 		this.tags = tags;
 	}
 }

@@ -57,8 +57,13 @@ public class DiaryEntryService {
 	
 	@RolesAllowed({ Roles.WRITE })
 	public DiaryEntry saveDiaryEntry(DiaryEntry entry) {
-		if (entry.getId() == null) {
+		String id = entry.getId();
+		
+		if (id == null) {
 			entry.setCreatedDate(new Date());
+		} else {
+			DiaryEntry original = diaryEntryRepository.findOne(id);
+			entry.setCreatedDate(original.getCreatedDate());
 		}
 		
 		if (entry.getTags() == null) {
@@ -67,8 +72,8 @@ public class DiaryEntryService {
 		
 		if (entry.getImages() == null) {
 			entry.setImages(new ArrayList<>(0));
-		} else if (entry.getId() != null) {
-			DiaryEntry original = diaryEntryRepository.findOne(entry.getId());
+		} else if (id != null) {
+			DiaryEntry original = diaryEntryRepository.findOne(id);
 			
 			if (original != null) {
 				List<String> newImages = entry.getImages();
@@ -83,6 +88,7 @@ public class DiaryEntryService {
 				}
 			}
 		}
+		
 		
 		return diaryEntryRepository.save(entry);
 	}

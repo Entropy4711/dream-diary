@@ -1,14 +1,37 @@
 .dd-table {
-	
+	margin-top: 5px;
+}
+
+.dd-table-body {
+	padding: 2px;
+	cursor: pointer;
+}
+
+.dd-table-body div {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-ms-text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.dd-table-body:hover {
+	background: #1c66ab !IMPORTANT;
+	color: white;
+}
+
+.dd-table .row:nth-child(even) {
+  background-color: lightgrey;
+}
+
+.dd-table .row:nth-child(odd) {
+  background-color: white;
 }
 
 .dd-table-header {
-	background: blue;
+	background: #1c66ab !IMPORTANT;
 	color: white;
 	font-weight: bold;
-	padding: 2px;
-}
-
-.dd-table-line {
-	padding: 2px;
+	padding-top: 3px;
+	padding-bottom: 3px;
 }

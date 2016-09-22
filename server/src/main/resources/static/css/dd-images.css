@@ -1,0 +1,25 @@
+#images-wrapper {
+	border: 1px solid #1c66ab;
+	padding: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.dd-image-container {
+	border: 1px solid #1c66ab;
+	padding: 5px;
+	margin-right: 10px;
+}
+
+.dd-image {
+	display: block;
+}
+
+.btn-delete-image {
+	width: 100%;
+	margin-top: 5px;
+}
+
+#fileupload {
+	border: 0 none;
+}

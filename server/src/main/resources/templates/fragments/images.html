@@ -3,14 +3,19 @@
 <head th:replace="fragments/standardhead :: standardhead"></head>
 
 <body>
-	<div th:fragment="images" class="row">
-		<div class="col-xs-2">
-			Images: 
-			<input id="fileupload" type="file" name="file" data-url="/image" />
-		</div>
-		
-		<div class="col-xs-2" th:each="image : ${images}" th:value="${image}">
-			<img width="70px" th:src="'/image/' + ${image}"/>
+	<div th:fragment="images" class="row dd-images">
+		<div class="col-xs-12">
+			<div class="pull-left">
+				Images: 
+				<input id="fileupload" type="file" name="file" data-url="/image" />
+			</div>
+			
+			<div class="pull-left dd-image-container" th:each="image : ${images}" th:value="${image}">
+				<img class="dd-image" height="80px" th:src="'/image/' + ${image}" th:value="${image}" />
+				<button class="btn-delete-image" th:value="${image}">Delete</button>
+			</div>
+			
+			<div class="clearfix"></div>
 		</div>
 	</div>
 </body>

@@ -1,3 +1,9 @@
-.dd-tags {
-	
+.bootstrap-tagsinput {
+	border: 1px solid #1c66ab !IMPORTANT;
+	border-radius: 0 !IMPORTANT;
+	padding-bottom: 8px !IMPORTANT;
+}
+
+.label-info {
+	background: #1c66ab !IMPORTANT;
 }

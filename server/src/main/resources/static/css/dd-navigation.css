@@ -1,0 +1,13 @@
+.dd-navigation {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.dd-navigation a {
+	margin-right: 3px;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 4px;
+	border: 1px solid #1c66ab;
+	color: #1c66ab;
+}

@@ -1,5 +1,6 @@
 package dreamdiary.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -57,7 +58,7 @@ public class ThymeleafController {
 		}
 		
 		if (pageSize == null || pageSize <= 0 || pageSize > 100) {
-			pageSize = 1;
+			pageSize = 25;
 		}
 		
 		DiaryEntrySearchResponse response = diaryEntryService.search(page, pageSize, searchTerm, sortField, sortAscending);
@@ -72,7 +73,10 @@ public class ThymeleafController {
 			DiaryEntry entry = diaryEntryService.getEntry(id);
 			model.addAttribute("entry", mapper.entryToDTO(entry));
 		} else {
-			model.addAttribute("entry", new DiaryEntry());
+			DiaryEntry entry = new DiaryEntry();
+			entry.setTags(new ArrayList<>(0));
+			entry.setImages(new ArrayList<>(0));
+			model.addAttribute("entry", entry);
 		}
 		
 		return "entry";

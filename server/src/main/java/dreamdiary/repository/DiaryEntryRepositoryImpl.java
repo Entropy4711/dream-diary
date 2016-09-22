@@ -74,7 +74,7 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepositoryCustom {
 				entry.setContent(content);
 				
 				List<String> tags = getStringList(dbo, "tags");
-				entry.setTags(tags);
+				entry.setTags(StringUtils.join(tags, ", "));
 			}
 		}
 		

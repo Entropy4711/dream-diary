@@ -5,7 +5,7 @@
 <body>
 	<script>
 		function loadTags() {
-			const tags = $("#tags-wrapper")[0].attributes[0].value;
+			const tags = $("#tags-wrapper")[0].attributes.value.value;
 			
 			$("#tags-wrapper").load("/tags?tags=" + tags, function() {
 				$('#txt-tags').tagsinput('refresh');
@@ -13,7 +13,7 @@
 		}
 		
 		function loadImages() {
-			const images = $("#images-wrapper")[0].attributes[0].value;
+			const images = $("#images-wrapper")[0].attributes.value.value;
 			
 			$("#images-wrapper").load("/images?images=" + images, function() {
 				$(function () {
@@ -32,10 +32,24 @@
 				            	}
 				            });
 				            
-				            $("#images-wrapper")[0].attributes[0].value = finalArray.toString();
+				            $("#images-wrapper")[0].attributes.value.value = finalArray.toString();
 				            loadImages();
 				        }
 				    });
+				});
+				
+				$(".dd-image").click(function(event) {
+					const image = event.target.attributes.value.value;
+					window.open("/image/" + image, "_blank");
+				});
+				
+				$(".btn-delete-image").click(function(event) {
+					const image = event.target.attributes.value.value;
+					const images = $("#images-wrapper")[0].attributes.value.value.split(',');
+					images.splice(images.indexOf(image), 1);
+					
+					$("#images-wrapper")[0].attributes.value.value = images.toString();
+					loadImages();
 				});
 			});
 		}
@@ -46,7 +60,7 @@
 					title: $("#txt-title").val(),
 					content: $("#txt-content").val(),
 					tags: $('#txt-tags').val().split(','),
-					images: $("#images-wrapper")[0].attributes[0].value.split(',')
+					images: $("#images-wrapper")[0].attributes.value.value.split(',')
 				};
 				
 				const id = getUrlParam("id");
