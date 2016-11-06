@@ -28,7 +28,6 @@ public class AppConfig extends WebMvcAutoConfiguration {
 	public void init() throws Exception {
 		DBCollection collection = mongoTemplate.getCollection(MongoDbConstants.diary_entry);
 		collection.createIndex(new BasicDBObject("title", 1), "idx_diary_entry_title");
-		collection.createIndex(new BasicDBObject("content", 1), "idx_diary_entry_content");
 		collection.createIndex(new BasicDBObject("createdDate", 1), "idx_diary_entry_createdDate");
 		collection.createIndex(new BasicDBObject("tags", 1), "idx_diary_entry_tags");
 		collection.createIndex(new BasicDBObject("images", 1), "idx_diary_entry_images");
