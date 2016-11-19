@@ -5,14 +5,14 @@
 <body>
 	<script>
 		function getParamsFromUrl() {
-			let url = "?searchTerm=" + getUrlParam("searchTerm") + "&amp;page=" + getCurrentPage();
+			let url = "?searchTerm=" + encodeURIComponent(getUrlParam("searchTerm")) + "&amp;page=" + getCurrentPage();
 			return url.replace('amp;', '');
 		}
 		
 		function getEntryParams(page) {
 			let url = "";
 			
-			const searchTerm = $("#search-term").val();
+			const searchTerm = encodeURIComponent($("#search-term").val());
 			url = url + "?searchTerm=" + searchTerm;
 			
 			url = url + "&amp;page=" + page;
@@ -48,6 +48,12 @@
 			});
 			
 			$("#search-term").val(getUrlParam("searchTerm"));
+			
+			$("#search-term").keyup(function(event) {
+				if (event.keyCode === 13) {
+					startSearch(0);
+				}
+			});
 			
 		 	$("#entry-search-button").click(function() {
 		 		startSearch(0);

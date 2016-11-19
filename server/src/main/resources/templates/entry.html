@@ -7,7 +7,7 @@
 		function loadTags() {
 			const tags = $("#tags-wrapper")[0].attributes.value.value;
 			
-			$("#tags-wrapper").load("/tags?tags=" + tags, function() {
+			$("#tags-wrapper").load("/tags?tags=" + encodeURIComponent(tags), function() {
 				$('#txt-tags').tagsinput('refresh');
 			});
 		}
