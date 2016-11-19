@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/standardhead :: standardhead"></head>
+
+<body>
+	<div th:fragment="tag-results" th:if="${searchResponse != null}">
+		<div class="dd-table">
+			<div class="row dd-table-header">
+				<div class="col-xs-4">Tag</div>
+				<div class="col-xs-4">Entry count</div>
+				<div class="col-xs-4"></div>
+			</div>
+			<div th:if="${searchResponse.pageCount > 0}" class="row dd-table-body" th:each="tag : ${searchResponse.tags}">
+				<div class="col-xs-4" th:text="${tag.title}">test</div>
+				<div class="col-xs-4" th:text="${tag.entryCount}">3</div>
+				<div class="col-xs-4">
+					<button class="tag-result-search-button" th:id="${tag.title}">Search entries with this tag</button>
+				</div>
+			</div>
+		
+			<div class="row" th:if="${searchResponse.pageCount == 0}">No tags found</div>
+		</div>
+	
+		<div class="row">
+			<nav aria-label="Page navigation" th:if="${searchResponse.pageCount > 0}">
+				<ul class="pagination">
+					<li><a aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+					</a></li>
+					<li><a th:id="${searchResponse.page} == ${i - 1} ? 'page-button' : ''" th:each="i : ${#numbers.sequence( 1, searchResponse.pageCount)}" th:value="${i-1}" th:text="${i}"></a></li>
+					<li><a aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+					</a></li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</body>
+</html>

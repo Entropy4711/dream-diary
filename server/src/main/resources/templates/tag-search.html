@@ -21,7 +21,7 @@
 		}
 		
 		function startSearch(page) {
-			window.location.href = "/dashboard" + getEntryParams(page);
+			window.location.href = "/tag-search" + getEntryParams(page);
 		}
 		
 		function getCurrentPage() {
@@ -35,15 +35,15 @@
 		}
 		
 		$(document).ready(function() {
-			$("#entry-result-wrapper").load("/entries" + getParamsFromUrl(), function() {
+			$("#tags-result-wrapper").load("/tag-results" + getParamsFromUrl(), function() {
 				$("a").click(function(event) {
 					const page = parseInt(event.target.attributes.value.value);
 					startSearch(page);
 				});
 				
-				$(".dd-table-body").click(function(event) {
-					const id = $(event.target).parent()[0].id;
-					window.location.href = "/entry?id=" + id;
+				$(".tag-result-search-button").click(function(event) {
+					const id = $(event.target)[0].id;
+					window.location.href = "/dashboard?searchTerm=" + encodeURIComponent(id);
 				});
 			});
 			
@@ -55,7 +55,7 @@
 				}
 			});
 			
-		 	$("#entry-search-button").click(function() {
+		 	$("#tag-search-button").click(function() {
 		 		startSearch(0);
 		 	});
 		 	
@@ -68,13 +68,13 @@
 	
 		<div class="row">
 			<div class="col-xs-6">
-				<input type="text" id="search-term" placeholder="Search in title, text or tags" />
+				<input type="text" id="search-term" placeholder="Search tags" />
 			</div>
 			<div class="col-xs-4 text-left">
-				<button id="entry-search-button">Search</button>
+				<button id="tag-search-button">Search</button>
 			</div>
 		</div>
-		<div class="col-xs-12" id="entry-result-wrapper"></div>
+		<div class="col-xs-12" id="tags-result-wrapper"></div>
 	</div>
 </body>
 </html>

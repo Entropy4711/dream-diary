@@ -15,7 +15,7 @@ button {
 	border: 1px solid #1c66ab;
 	border-radius: 0;
 	padding: 4px;
-	background: transparent;
+	background: white !IMPORTANT;
 	color: #1c66ab !IMPORTANT;
 	font-weight: bold !IMPORTANT;
 }

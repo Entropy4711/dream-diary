@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
@@ -21,6 +22,8 @@ import com.mongodb.DBObject;
 import dreamdiary.constants.MongoDbConstants;
 import dreamdiary.dto.DiaryEntryListResult;
 import dreamdiary.dto.DiaryEntrySearchRequest;
+import dreamdiary.dto.TagListResult;
+import dreamdiary.dto.TagsSearchRequest;
 
 public class DiaryEntryRepositoryImpl implements DiaryEntryRepositoryCustom {
 	
@@ -75,6 +78,9 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepositoryCustom {
 				
 				List<String> tags = getStringList(dbo, "tags");
 				entry.setTags(StringUtils.join(tags, ", "));
+				
+				List<String> images = getStringList(dbo, "images");
+				entry.setImages(StringUtils.join(images, ", "));
 			}
 		}
 		
@@ -85,6 +91,70 @@ public class DiaryEntryRepositoryImpl implements DiaryEntryRepositoryCustom {
 		}
 		
 		return new PageImpl<>(entries, new PageRequest(page, pageSize), totalElements);
+	}
+	
+	@Override
+	public Page<TagListResult> searchTags(TagsSearchRequest request) {
+		String term = request.getTerm();
+		int page = request.getPage();
+		int pageSize = request.getPageSize();
+		String sortField = request.getSortField();
+		boolean sortAscending = request.isSortAscending();
+		
+		DBCollection collection = mongoTemplate.getCollection(MongoDbConstants.diary_entry);
+		
+		List<DBObject> pipeline = new ArrayList<>();
+		pipeline.add(new BasicDBObject("$unwind", "$tags"));
+		
+		DBObject query = new BasicDBObject();
+		
+		List<DBObject> andParams = new ArrayList<>(2);
+		andParams.add(new BasicDBObject("tags", new BasicDBObject("$ne", "")));
+		
+		if (StringUtils.isNotBlank(term)) {
+			Pattern pattern = Pattern.compile(term, Pattern.CASE_INSENSITIVE);
+			andParams.add(new BasicDBObject("tags", pattern));
+		}
+		
+		query.put("$and", andParams);
+		
+		pipeline.add(new BasicDBObject("$match", query));
+		
+		DBObject group = new BasicDBObject();
+		group.put("_id", "$tags");
+		group.put("entryCount", new BasicDBObject("$sum", 1));
+		pipeline.add(new BasicDBObject("$group", group));
+		
+		DBObject sort = new BasicDBObject(sortField, sortAscending ? 1 : -1);
+		pipeline.add(new BasicDBObject("$sort", sort));
+		
+		pipeline.add(new BasicDBObject("$skip", page * pageSize));
+		pipeline.add(new BasicDBObject("$limit", pageSize));
+		
+		AggregationOutput aggregate = collection.aggregate(pipeline);
+		Iterable<DBObject> results = aggregate.results();
+		
+		List<TagListResult> dtos = new ArrayList<>(pageSize);
+		
+		if (results != null) {
+			for (DBObject result : results) {
+				String tagTitle = (String)result.get("_id");
+				int entryCount = (int)result.get("entryCount");
+				
+				TagListResult dto = new TagListResult();
+				dto.setTitle(tagTitle);
+				dto.setEntryCount(entryCount);
+				dtos.add(dto);
+			}
+		}
+		
+		long totalElements = dtos.size();
+		
+		if (dtos.size() == pageSize) {
+			totalElements = collection.count(query);
+		}
+		
+		return new PageImpl<>(dtos, new PageRequest(page, pageSize), totalElements);
 	}
 	
 	private List<String> getStringList(DBObject dbo, String fieldName) {

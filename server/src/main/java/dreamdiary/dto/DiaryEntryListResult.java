@@ -12,6 +12,7 @@ public class DiaryEntryListResult implements Serializable {
 	private String title;
 	private String content;
 	private String tags;
+	private String images;
 	
 	public String getId() {
 		return id;
@@ -51,5 +52,13 @@ public class DiaryEntryListResult implements Serializable {
 	
 	public void setTags(String tags) {
 		this.tags = tags;
+	}
+	
+	public String getImages() {
+		return images;
+	}
+	
+	public void setImages(String images) {
+		this.images = images;
 	}
 }

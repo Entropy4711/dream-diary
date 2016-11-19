@@ -34,6 +34,9 @@ import dreamdiary.domain.DiaryEntry;
 import dreamdiary.dto.DiaryEntryListResult;
 import dreamdiary.dto.DiaryEntrySearchRequest;
 import dreamdiary.dto.DiaryEntrySearchResponse;
+import dreamdiary.dto.TagListResult;
+import dreamdiary.dto.TagsSearchRequest;
+import dreamdiary.dto.TagsSearchResponse;
 import dreamdiary.repository.DiaryEntryRepository;
 
 @Service
@@ -192,6 +195,42 @@ public class DiaryEntryService {
 		resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		
 		return null;
+	}
+	
+	public TagsSearchResponse searchTags(Integer page, Integer pageSize, String searchTerm, String sortField, Boolean sortAscending) {
+		TagsSearchRequest request = new TagsSearchRequest();
+		request.setPage(page);
+		request.setPageSize(pageSize);
+		request.setTerm(searchTerm);
+		
+		if (StringUtils.isBlank(sortField)) {
+			sortField = "createdDate";
+		}
+		
+		if (sortAscending == null) {
+			sortAscending = false;
+		}
+		
+		request.setSortField(sortField);
+		request.setSortAscending(sortAscending);
+		
+		Page<TagListResult> entries = diaryEntryRepository.searchTags(request);
+		
+		TagsSearchResponse response = new TagsSearchResponse();
+		response.setTags(entries.getContent());
+		response.setTotalElements(entries.getTotalElements());
+		
+		if (entries.getTotalElements() > 0) {
+			response.setPageCount(entries.getTotalElements() / pageSize);
+			
+			if (response.getPageCount() <= 0) {
+				response.setPageCount(1);
+			}
+		}
+		
+		response.setPage(page);
+		
+		return response;
 	}
 	
 	@Autowired

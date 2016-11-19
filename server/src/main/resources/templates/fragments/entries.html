@@ -6,16 +6,18 @@
 	<div th:fragment="entries" th:if="${searchResponse != null}">
 		<div class="dd-table">
 			<div class="row dd-table-header">
-				<div class="col-xs-3">Title</div>
+				<div class="col-xs-2">Title</div>
 				<div class="col-xs-3">Date</div>
 				<div class="col-xs-3">Preview</div>
-				<div class="col-xs-3">Tags</div>
+				<div class="col-xs-2">Tags</div>
+				<div class="col-xs-2">Images</div>
 			</div>
 			<div th:if="${searchResponse.pageCount > 0}" class="row dd-table-body" th:each="entry : ${searchResponse.entries}" th:id="${entry.id}">
-				<div class="col-xs-3" th:text="${entry.title}">test title 1234</div>
+				<div class="col-xs-2" th:text="${entry.title}">test title 1234</div>
 				<div class="col-xs-3" th:text="${entry.createdDate}">16.09.2016 17:54:21</div>
 				<div class="col-xs-3" th:text="${entry.content}">test sdfgnsdfoigns fgf gfd...</div>
-				<div class="col-xs-3" th:text="${entry.tags}">tag1 tag2 test1234.</div>
+				<div class="col-xs-2" th:text="${entry.tags}">tag1 tag2 test1234.</div>
+				<div class="col-xs-2" th:text="${entry.images}">image1.jpg image2.png</div>
 			</div>
 		
 			<div class="row" th:if="${searchResponse.pageCount == 0}">No entries found</div>

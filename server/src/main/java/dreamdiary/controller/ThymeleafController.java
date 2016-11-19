@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import dreamdiary.domain.DiaryEntry;
 import dreamdiary.dto.DiaryEntrySearchResponse;
+import dreamdiary.dto.TagsSearchResponse;
 import dreamdiary.mapper.DiaryEntryMapper;
 import dreamdiary.service.DiaryEntryService;
 
@@ -30,6 +31,11 @@ public class ThymeleafController {
 	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
 	public String dashboard() {
 		return "dashboard";
+	}
+	
+	@RequestMapping(value = "/tag-search", method = RequestMethod.GET)
+	public String tagSearch() {
+		return "tag-search";
 	}
 	
 	@RequestMapping(value = "/navigation", method = RequestMethod.GET)
@@ -65,6 +71,31 @@ public class ThymeleafController {
 		model.addAttribute("searchResponse", response);
 		
 		return "fragments/entries :: entries";
+	}
+	
+	@RequestMapping(value = "/tag-results", method = RequestMethod.GET)
+	public String tagResults(
+			// @formatter:off
+			@RequestParam(required = false) String searchTerm, 
+			@RequestParam(required = false) Integer page, 
+			@RequestParam(required = false) Integer pageSize, 
+			@RequestParam(required = false) String sortField, 
+			@RequestParam(required = false) Boolean sortAscending, 
+			Model model) {
+		// @formatter:on
+		
+		if (page == null || page < 0) {
+			page = 0;
+		}
+		
+		if (pageSize == null || pageSize <= 0 || pageSize > 100) {
+			pageSize = 25;
+		}
+		
+		TagsSearchResponse response = diaryEntryService.searchTags(page, pageSize, searchTerm, sortField, sortAscending);
+		model.addAttribute("searchResponse", response);
+		
+		return "fragments/tag-results :: tag-results";
 	}
 	
 	@RequestMapping(value = "/entry", method = RequestMethod.GET)
